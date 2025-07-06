@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY UNIQUE COPYTEXT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .code-block {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .copy-btn {
+            transition: all 0.3s ease;
+        }
+        .copy-btn:hover {
+            transform: translateY(-2px);
+        }
+        /* Animation for copy feedback */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .feedback {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Clipboard Copy Tool</h1>
+        
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-gray-800 text-white px-4 py-2 flex justify-between items-center">
+                <h2 class="font-mono text-sm">CSS Editor</h2>
+                <div class="space-x-2">
+                    <button id="paste-btn" class="copy-btn bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                        Paste CSS
+                    </button>
+                    <button id="copy-btn" class="copy-btn bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
+                        Copy CSS
+                    </button>
+                </div>
+            </div>
+            
+            <pre id="css-code" class="code-block bg-gray-100 p-4 overflow-x-auto"></pre>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mt-6">
+            <div class="bg-gray-800 text-white px-4 py-2">
+                <h2 class="font-mono text-sm">Pasted CSS</h2>
+            </div>
+            <pre id="pasted-code" class="code-block bg-gray-100 p-4 overflow-x-auto">Paste your CSS here...</pre>
+        </div>
+        
+        <div id="copy-feedback" class="feedback fixed bottom-6 right-6 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg hidden">
+            CSS copied to clipboard!
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyBtn = document.getElementById('copy-btn');
+            const cssCode = document.getElementById('css-code');
+            const feedback = document.getElementById('copy-feedback');
+            
+            const pasteBtn = document.getElementById('paste-btn');
+            const pastedCode = document.getElementById('pasted-code');
+
+            pasteBtn.addEventListener('click', async function() {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    pastedCode.textContent = text;
+                    
+                    // Show feedback
+                    feedback.textContent = 'CSS pasted!';
+                    feedback.classList.remove('bg-red-500', 'hidden', 'bg-green-500');
+                    feedback.classList.add('bg-yellow-500');
+                    feedback.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        feedback.classList.add('hidden');
+                    }, 3000);
+                } catch (err) {
+                    console.error('Error pasting CSS:', err);
+                    feedback.textContent = 'Error pasting from clipboard';
+                    feedback.classList.remove('bg-green-500', 'hidden');
+                    feedback.classList.add('bg-red-500');
+                    feedback.classList.remove('hidden');
+                    setTimeout(() => {
+                        feedback.classList.add('hidden');
+                    }, 3000);
+                }
+            });
+
+            copyBtn.addEventListener('click', function() {
+                // Select the CSS code
+                const range = document.createRange();
+                range.selectNode(cssCode);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                
+                try {
+                    // Execute the copy command
+                    const successful = document.execCommand('copy');
+                    const msg = successful ? 'CSS copied to clipboard!' : 'Unable to copy CSS';
+                    
+                    if (successful) {
+                        // Show success feedback
+                        feedback.textContent = msg;
+                        feedback.classList.remove('bg-red-500', 'hidden');
+                        feedback.classList.add('bg-green-500');
+                        
+                        // Change button text temporarily
+                        copyBtn.textContent = 'Copied!';
+                        setTimeout(() => {
+                            copyBtn.textContent = 'Copy to Clipboard';
+                        }, 2000);
+                    }
+                } catch (err) {
+                    console.error('Error copying CSS:', err);
+                    feedback.textContent = 'Error copying to clipboard';
+                    feedback.classList.remove('bg-green-500', 'hidden');
+                    feedback.classList.add('bg-red-500');
+                }
+                
+                // Show feedback and hide after 3 seconds
+                feedback.classList.remove('hidden');
+                setTimeout(() => {
+                    feedback.classList.add('hidden');
+                }, 3000);
+                
+                // Deselect the text
+                window.getSelection().removeAllRanges();
+            });
+        });
+    </script>
+</body>
+</html>
+
