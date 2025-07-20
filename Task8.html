@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .rating-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+        .rating-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        .rating-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+            transition: all 0.2s ease;
+        }
+        .rating-circle:hover {
+            transform: scale(1.1);
+        }
+        #feedbackForm {
+            transition: all 0.3s ease;
+        }
+        .thank-you-message {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        .thank-you-message.show {
+            opacity: 1;
+            height: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-12 max-w-3xl">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-indigo-700 mb-2">the Power Feedback</h1>
+            <p class="text-gray-600">Help us improve your experience by sharing your feedback</p>
+        </header>
+
+        <div class="bg-white rounded-xl shadow-md overflow-hidden p-8">
+            <div id="feedbackForm">
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Rate Your Experience</h2>
+                    <div class="rating-container mb-4">
+                        <div class="rating-option" onclick="selectRating(1)">
+                            <div class="rating-circle bg-red-100 text-red-600 border border-red-200" id="rating-1">1</div>
+                            <span class="text-xs text-gray-500">Very Poor</span>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(2)">
+                            <div class="rating-circle bg-orange-100 text-orange-600 border border-orange-200" id="rating-2">2</div>
+                            <span class="text-xs text-gray-500">Poor</span>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(3)">
+                            <div class="rating-circle bg-yellow-100 text-yellow-600 border border-yellow-200" id="rating-3">3</div>
+                            <span class="text-xs text-gray-500">Average</span>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(4)">
+                            <div class="rating-circle bg-blue-100 text-blue-600 border border-blue-200" id="rating-4">4</div>
+                            <span class="text-xs text-gray-500">Good</span>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(5)">
+                            <div class="rating-circle bg-green-100 text-green-600 border border-green-200" id="rating-5">5</div>
+                            <span class="text-xs text-gray-500">Excellent</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="ratingValue" name="rating">
+                </div>
+
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Navigation & Usability</h2>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 mb-2">How easy was it to navigate the app?</label>
+                        <div class="flex space-x-4">
+                            <label class="flex items-center">
+                                <input type="radio" name="navigation" value="very_easy" class="mr-2">
+                                <span>Very Easy</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="navigation" value="easy" class="mr-2">
+                                <span>Easy</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="navigation" value="neutral" class="mr-2">
+                                <span>Neutral</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="navigation" value="difficult" class="mr-2">
+                                <span>Difficult</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="navigation" value="very_difficult" class="mr-2">
+                                <span>Very Difficult</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">What features did you find most useful?</label>
+                        <textarea name="usefulFeatures" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 mb-2">Were there any confusing features?</label>
+                        <textarea name="confusingFeatures" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Functionality Feedback</h2>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">Did you encounter any bugs or issues?</label>
+                        <textarea name="issues" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 mb-2">Missing features you expected?</label>
+                        <textarea name="missingFeatures" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Suggestions</h2>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2">What improvements would you suggest?</label>
+                        <textarea name="suggestions" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="followUp" class="mr-2">
+                            <span>I'm willing to participate in a follow-up interview</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="submitFeedback()" class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
+                        Submit Feedback
+                    </button>
+                </div>
+            </div>
+
+            <div id="thankYouMessage" class="thank-you-message text-center p-8">
+                <div class="mb-6">
+                    <img src="https://placehold.co/200x200?text=Thank+You" alt="Illustration of smiling face with thumbs up gesture showing appreciation for feedback" class="mx-auto">
+                </div>
+                <h2 class="text-2xl font-bold text-indigo-700 mb-2">Thank You!</h2>
+                <p class="text-gray-600 mb-4">We appreciate your time and valuable feedback.</p>
+                <p class="text-gray-500">Your input will help us improve the app experience for everyone.</p>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-500 text-sm">
+            <p>This feedback will be analyzed to make improvements to the app.</p>
+        </div>
+    </div>
+
+    <script>
+        let selectedRating = 0;
+        
+        function selectRating(rating) {
+            selectedRating = rating;
+            document.getElementById('ratingValue').value = rating;
+            
+            // Reset all ratings
+            for (let i = 1; i <= 5; i++) {
+                const circle = document.getElementById(`rating-${i}`);
+                circle.classList.remove('bg-indigo-100', 'border-indigo-300', 'text-indigo-600');
+                circle.classList.remove('scale-110');
+                
+                if (i <= 2) {
+                    circle.classList.add('bg-red-100', 'border-red-200', 'text-red-600');
+                } else if (i <= 3) {
+                    circle.classList.add('bg-yellow-100', 'border-yellow-200', 'text-yellow-600');
+                } else {
+                    circle.classList.add('bg-green-100', 'border-green-200', 'text-green-600');
+                }
+            }
+            
+            // Highlight selected rating
+            const selectedCircle = document.getElementById(`rating-${rating}`);
+            selectedCircle.classList.remove('bg-red-100', 'bg-yellow-100', 'bg-green-100');
+            selectedCircle.classList.remove('border-red-200', 'border-yellow-200', 'border-green-200');
+            selectedCircle.classList.remove('text-red-600', 'text-yellow-600', 'text-green-600');
+            
+            selectedCircle.classList.add('bg-indigo-600', 'border-indigo-300', 'text-white', 'scale-110');
+            
+            // Highlight all lower ratings
+            for (let i = 1; i < rating; i++) {
+                const circle = document.getElementById(`rating-${i}`);
+                circle.classList.remove('bg-red-100', 'bg-yellow-100');
+                circle.classList.remove('border-red-200', 'border-yellow-200');
+                circle.classList.remove('text-red-600', 'text-yellow-600');
+                
+                circle.classList.add('bg-indigo-100', 'border-indigo-300', 'text-indigo-600');
+            }
+        }
+        
+        function submitFeedback() {
+            if (selectedRating === 0) {
+                alert('Please select a rating before submitting');
+                return;
+            }
+            
+            // Here you would normally send the data to a server
+            // For this example, we'll just show the thank you message
+            
+            document.getElementById('feedbackForm').style.opacity = '0';
+            document.getElementById('feedbackForm').style.height = '0';
+            document.getElementById('feedbackForm').style.margin = '0';
+            document.getElementById('feedbackForm').style.padding = '0';
+            document.getElementById('feedbackForm').style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                document.getElementById('thankYouMessage').classList.add('show');
+            }, 300);
+            
+            // In a real app, you would collect all form data here
+            // and send it to your backend
+            const formData = {
+                rating: selectedRating,
+                navigation: document.querySelector('input[name="navigation"]:checked')?.value,
+                usefulFeatures: document.querySelector('textarea[name="usefulFeatures"]').value,
+                confusingFeatures: document.querySelector('textarea[name="confusingFeatures"]').value,
+                issues: document.querySelector('textarea[name="issues"]').value,
+                missingFeatures: document.querySelector('textarea[name="missingFeatures"]').value,
+                suggestions: document.querySelector('textarea[name="suggestions"]').value,
+                followUp: document.querySelector('input[name="followUp"]').checked
+            };
+            
+            console.log('Feedback submitted:', formData);
+            // Send this data to your backend for analysis
+        }
+    </script>
+</body>
+</html>
